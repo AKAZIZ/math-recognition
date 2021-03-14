@@ -16,7 +16,7 @@ class DrawPad:
         self.height = 500
         self.old_x = None
         self.old_y = None
-        self.penWidth = 2
+        self.penWidth = 4
         self.root_window = Tk()  # Create the root Window
         self.root_window.geometry(f'{self.width}x{self.height}')  # Set the size of the root window
         self.symbol_detector = SymbolDetector("formula.png", (-1*self.penWidth + 6, -1*self.penWidth + 6))  # kernel_size = -1*penWidth + 6

@@ -1,6 +1,6 @@
 import cv2
 import imutils
-
+from PIL import Image
 
 class SymbolDetector:
     def __init__(self, image, kernel_size):
@@ -25,6 +25,8 @@ class SymbolDetector:
         # Dilate the contours on the image
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, self.kernel_size)
         self.dilated_image = cv2.dilate(self.resized_image, kernel)
+        # gray = cv2.cvtColor(self.resized_image, cv2.COLOR_BGR2GRAY)
+
         # convert the resized image to grayscale, blur it slightly, and threshold it
         gray = cv2.cvtColor(self.dilated_image, cv2.COLOR_BGR2GRAY)
         blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -70,10 +72,42 @@ class SymbolDetector:
             c = c.astype("float")
             c *= self.ratio  # the counter is smaller if it is not multiplied by the ratio
             c = c.astype("int")
-            cv2.drawContours(read_image, [c], -1, (0, 255, 0), 2)
+            x, y, w, h = cv2.boundingRect(c)
+            # cv2.rectangle(read_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            # cv2.drawContours(read_image, [c], -1, (0, 255, 0), 2)
 
-            # display the name of the coontour on the image
-            # cv2.putText(image, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+            # Crop the image
+            cropped_image = read_image[y-2:y + h+2, x-2:x + w+2]
+
+            # Save the image
+            image_name = f'cropped_{k}.jpg'
+            cv2.imwrite(image_name, cropped_image)
+
+            desired_size = 50
+            im_pth = image_name
+
+            im = cv2.imread(im_pth)
+            old_size = im.shape[:2]  # old_size is in (height, width) format
+
+            ratio = float(desired_size) / max(old_size)
+            new_size = tuple([int(x * ratio) for x in old_size])
+
+            # new_size should be in (width, height) format
+
+            im = cv2.resize(im, (new_size[1], new_size[0]))
+
+            delta_w = desired_size - new_size[1]
+            delta_h = desired_size - new_size[0]
+            top, bottom = delta_h // 2, delta_h - (delta_h // 2)
+            left, right = delta_w // 2, delta_w - (delta_w // 2)
+
+            color = [255, 255, 255]
+            new_im = cv2.copyMakeBorder(im, top, bottom, left, right, cv2.BORDER_CONSTANT,
+                                        value=color)
+
+            # Show the image
+            cv2.imshow("new_im", new_im)
+            cv2.imwrite("resized.png", new_im)
 
             # show the output image
             cv2.imshow("Image", read_image)
