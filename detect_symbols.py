@@ -2,6 +2,7 @@ import cv2
 import imutils
 from PIL import Image
 
+
 class SymbolDetector:
     def __init__(self, image, kernel_size):
         self.image = image

@@ -61,9 +61,3 @@ class DrawPad:
     def clear(self):
         self.canvas.delete('all')
         self.memory_draw.rectangle((0, 0, 500, 500), fill=(255, 255, 255, 0))
-
-
-# if __name__ == '__main__':
-#     drawPad = DrawPad()
-#     drawPad.root_window.title("Draw Pad ✏️")
-#     drawPad.root_window.mainloop()
