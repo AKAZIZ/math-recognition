@@ -4,7 +4,7 @@ import cv2
 from tqdm import tqdm
 import pickle
 
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, save_model
 from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.losses import sparse_categorical_crossentropy
@@ -32,7 +32,6 @@ no_classes = 3
 
 
 def create_training_data():
-
     for category in CATEGORIES:
         path = os.path.join(DATADIR, category)
         class_num = CATEGORIES.index(category)  # get the classification  (0, 1 or 2)
@@ -54,8 +53,8 @@ y = []
 # y = np.array(y)
 
 for features, label in training_data:
-    X.append(features) # X contains the images
-    y.append(label)    # y contains the classes
+    X.append(features)  # X contains the images
+    y.append(label)     # y contains the classes
     # np.array((y, label))
 X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)  # create an np array
 y = np.array(y).reshape(-1, 1)
@@ -105,14 +104,12 @@ model.compile(loss=sparse_categorical_crossentropy, optimizer=Adam(), metrics=['
 # Fit data to model
 model.fit(X, y, batch_size=10, epochs=3, verbose=1, validation_split=0.2)
 
-# Test the Model
-
-
 # Evaluate the model
-
+score = model.evaluate(X, y, verbose=0)
+print(f'Test loss: {score[0]} / Test accuracy: {score[1]}')
 
 # save the model
+filepath = '.'
+save_model(model, filepath)
 
-
-# Loading the model and use it
 
