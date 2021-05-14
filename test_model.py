@@ -12,10 +12,10 @@ from pathlib import Path
 
 pickle_in = open("X.pickle", "rb")
 X = pickle.load(pickle_in)
-plt.imshow(X[1])
+plt.imshow(X[0])
 plt.show()
 
-samples_to_predict = np.array([X[1]])
+samples_to_predict = np.array([X[1], X[11], X[21]])
 
 filepath = "."
 

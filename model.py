@@ -90,19 +90,25 @@ X = X/255.0
 model = Sequential()
 model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=X.shape[1:]))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+# model.add(Dropout(0.25))
+
+model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Flatten())
-model.add(Dense(256, activation='relu'))
+# model.add(Dropout(0.25))
+# Now we have a 64x2 Model (64 neurons in the input and 2 layers)
+
+model.add(Flatten())  # Flatten the data because Convolution is 2D and Dense is 1D dataset layer
+model.add(Dense(32, activation='relu'))
+
+# Output layer
 model.add(Dense(no_classes, activation='softmax'))
 
 # Compile the Model
 model.compile(loss=sparse_categorical_crossentropy, optimizer=Adam(), metrics=['accuracy'])
 
 # Fit data to model
-model.fit(X, y, batch_size=10, epochs=3, verbose=1, validation_split=0.2)
+# The Batch size and validation split depend on the size of the dataset
+model.fit(X, y, batch_size=1, epochs=3, verbose=1, validation_split=0.05)
 
 # Evaluate the model
 score = model.evaluate(X, y, verbose=0)
