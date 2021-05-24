@@ -6,8 +6,10 @@ from PIL import ImageTk, Image, ImageDraw
 import PIL
 
 from detect_symbols import SymbolDetector
+from predict_symbols import SymbolPredictor
 
 
+# TODO: use multiple inheritance in DrawPad class
 class DrawPad:
     def __init__(self):
         self.drawing_color = '#007acc'  # Could be expressed with Hex color codes
@@ -20,6 +22,7 @@ class DrawPad:
         self.root_window = Tk()  # Create the root Window
         self.root_window.geometry(f'{self.width}x{self.height}')  # Set the size of the root window
         self.symbol_detector = SymbolDetector("formula.png", (-1*self.penWidth + 6, -1*self.penWidth + 6))  # kernel_size = -1*penWidth + 6
+        self.symbol_predictor = SymbolPredictor(symbol_detector=self.symbol_detector)
         self._create_buttons_frame()
         self._create_canvas()
         self._create_memory_image()
@@ -37,8 +40,19 @@ class DrawPad:
     def detect(self):
         self.symbol_detector.detect_symbols()
 
+    # def predict(self):
+    #     self.symbol_predictor.predict()
+
     def _create_buttons_frame(self):
         self.detect_btn = Button(self.root_window, text="Detect", command=lambda: self.symbol_detector.detect_symbols())
+        self.detect_btn.pack(side=tkinter.BOTTOM)
+        self.detect_btn = Button(self.root_window, text="Predict", command=lambda: self.symbol_predictor.predict())
+        self.detect_btn.pack(side=tkinter.BOTTOM)
+        self.detect_btn = Button(self.root_window, text="Erase", command=lambda: self.erase())
+        self.detect_btn.pack(side=tkinter.BOTTOM)
+        self.detect_btn = Button(self.root_window, text="Write", command=lambda: self.write())
+        self.detect_btn.pack(side=tkinter.BOTTOM)
+        self.detect_btn = Button(self.root_window, text="Clear", command=lambda: self.clear())
         self.detect_btn.pack(side=tkinter.BOTTOM)
 
     def draw_line(self, e):
@@ -57,6 +71,14 @@ class DrawPad:
     def reset(self, e):  # Resetting or cleaning the canvas
         self.old_x = None
         self.old_y = None
+
+    def write(self):
+        self.drawing_color = '#007acc'
+        self.penWidth = 4
+
+    def erase(self):
+        self.drawing_color = 'white'
+        self.penWidth = 8
 
     def clear(self):
         self.canvas.delete('all')

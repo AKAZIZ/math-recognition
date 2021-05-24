@@ -35,7 +35,7 @@ def create_training_data():
     for category in CATEGORIES:
         path = os.path.join(DATADIR, category)
         class_num = CATEGORIES.index(category)  # get the classification  (0, 1 or 2)
-        for img in tqdm(os.listdir(path)):  # iterate over each image per dogs and cats
+        for img in tqdm(os.listdir(path)):  # iterate over each image
             try:
                 img_array = cv2.imread(os.path.join(path, img), cv2.IMREAD_GRAYSCALE)  # convert to array
                 new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))  # resize to normalize data size
@@ -108,7 +108,9 @@ model.compile(loss=sparse_categorical_crossentropy, optimizer=Adam(), metrics=['
 
 # Fit data to model
 # The Batch size and validation split depend on the size of the dataset
-model.fit(X, y, batch_size=1, epochs=3, verbose=1, validation_split=0.05)
+# Epochs are the number of times of repeating the training process, so the more epochs, the better, upon that the mode
+# is not overtrained
+model.fit(X, y, batch_size=1, epochs=10, verbose=1, validation_split=0.05)
 
 # Evaluate the model
 score = model.evaluate(X, y, verbose=0)

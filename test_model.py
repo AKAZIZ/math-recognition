@@ -5,17 +5,20 @@ import matplotlib.image as mpimg
 from tensorflow.keras.models import load_model
 import pickle
 from pathlib import Path
+import cv2
 
-# samples_to_predict = mpimg.imread('resized.png')
-# samples_to_predict = np.array(samples_to_predict)
+# Seperate image
+img_array = cv2.imread('dataset/product/15.png', cv2.IMREAD_GRAYSCALE)  # convert to array
+new_array = cv2.resize(img_array, (50, 50))
+samples_to_predict = np.array(new_array).reshape(-1, 50, 50, 1)
 
+ 
+# pickle_in = open("X.pickle", "rb")
+# X = pickle.load(pickle_in)
+# plt.imshow(X[0])
+# plt.show()
 
-pickle_in = open("X.pickle", "rb")
-X = pickle.load(pickle_in)
-plt.imshow(X[0])
-plt.show()
-
-samples_to_predict = np.array([X[1], X[11], X[21]])
+# samples_to_predict = np.array([X[i] for i in range(0, 30)])
 
 filepath = "."
 
