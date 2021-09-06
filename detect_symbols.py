@@ -99,7 +99,7 @@ class SymbolDetector:
             self.crop_image(counter=c, image=read_image, image_number=k)
             self.add_borders(desired_size=50, image=self.cropped_image)
             self.detected_symbols_list.append(self.image_with_boarders)
-            print(f"Length of detected symbols list: {len(self.detected_symbols_list)}")
+            # print(f"Length of detected symbols list: {len(self.detected_symbols_list)}")
 
     def display_contours_on_image(self):
         read_image = cv2.imread(self.image)
@@ -121,7 +121,7 @@ class SymbolDetector:
             # setattr(SymbolPredictor, "image_of_symbol_to_predict", self.image_with_boarders)
 
             # TODO: This is temporary just to create the data set. Has to be removed later
-            # self.show_and_save(self.image_with_boarders, f"{k+11}.png")
+            # self.show_and_save(self.image_with_boarders, f"{k+1}.png")
 
             # show the output image
             cv2.imshow("Image", read_image)
@@ -130,7 +130,6 @@ class SymbolDetector:
     def detect_symbols(self):
         self.__init__("formula.png", self.kernel_size)  # Reset the instance to get the last drawing on the image
         self.compute_contour_centers()
-        # Uncomment this to display detected counters
-        # self.display_contours_on_image()
+        # self.display_contours_on_image()  # Uncomment this to display detected counters
         self.get_detected_symbols()
 

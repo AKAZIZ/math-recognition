@@ -12,12 +12,12 @@ from tensorflow.keras.optimizers import Adam
 
 # Load the dataset
 DATADIR = "dataset"
-CATEGORIES = ["int", "sum", "product"]
+CATEGORIES = ["int", "sum", "product", "sqrt", "a", "b", "x", "y"]
 training_data = []
 
 # Model configuration
 IMG_SIZE = 50
-no_classes = 3
+no_classes = 8
 
 # Check the Data
 # for category in CATEGORIES:  # do dogs and cats
@@ -110,13 +110,14 @@ model.compile(loss=sparse_categorical_crossentropy, optimizer=Adam(), metrics=['
 # The Batch size and validation split depend on the size of the dataset
 # Epochs are the number of times of repeating the training process, so the more epochs, the better, upon that the mode
 # is not overtrained
-model.fit(X, y, batch_size=1, epochs=10, verbose=1, validation_split=0.05)
+model.fit(X, y, batch_size=10, epochs=10, verbose=1, validation_split=0.05)
 
 # Evaluate the model
 score = model.evaluate(X, y, verbose=0)
 print(f'Test loss: {score[0]} / Test accuracy: {score[1]}')
 
 # save the model
+print("Saving the model")
 filepath = '.'
 save_model(model, filepath)
 
