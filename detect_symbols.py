@@ -114,7 +114,7 @@ class SymbolDetector:
 
             # Draw the contours on the image
             # cv2.rectangle(read_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            # cv2.drawContours(read_image, [c], -1, (0, 255, 0), 2)
+            cv2.drawContours(read_image, [c], -1, (0, 255, 0), 2)
 
             self.crop_image(counter=c, image=read_image, image_number=k)
             self.add_borders(desired_size=50, image=self.cropped_image)
@@ -124,11 +124,13 @@ class SymbolDetector:
             # self.show_and_save(self.image_with_boarders, f"{k+11}.png")
 
             # show the output image
-            # cv2.imshow("Image", read_image)
-            # cv2.waitKey(0)
+            cv2.imshow("Image", read_image)
+            cv2.waitKey(0)
 
     def detect_symbols(self):
         self.__init__("formula.png", self.kernel_size)  # Reset the instance to get the last drawing on the image
         self.compute_contour_centers()
+        # Uncomment this to display detected counters
+        # self.display_contours_on_image()
         self.get_detected_symbols()
 
