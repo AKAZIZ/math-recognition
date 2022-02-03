@@ -88,11 +88,11 @@ X = X/255.0
 
 # Define the Model
 model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=X.shape[1:]))
+model.add(Conv2D(2500, kernel_size=(3, 3), activation='relu', input_shape=X.shape[1:]))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.25))
 
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
+model.add(Conv2D(250, kernel_size=(3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.25))
 # Now we have a 64x2 Model (64 neurons in the input and 2 layers)
@@ -110,7 +110,7 @@ model.compile(loss=sparse_categorical_crossentropy, optimizer=Adam(), metrics=['
 # The Batch size and validation split depend on the size of the dataset
 # Epochs are the number of times of repeating the training process, so the more epochs, the better, upon that the mode
 # is not overtrained
-model.fit(X, y, batch_size=10, epochs=10, verbose=1, validation_split=0.05)
+model.fit(X, y, batch_size=3, epochs=10, verbose=1, validation_split=0.05)
 
 # Evaluate the model
 score = model.evaluate(X, y, verbose=0)

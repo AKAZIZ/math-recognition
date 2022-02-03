@@ -59,6 +59,14 @@ class SymbolDetector:
             self.coordinates_list = sorted(self.coordinates_list, key=getKey)
         return self.coordinates_list
 
+    @staticmethod
+    def compute_contour_extremities(contour):
+        ext_left = tuple(contour[contour[:, :, 0].argmin()][0])
+        ext_right = tuple(contour[contour[:, :, 0].argmax()][0])
+        ext_top = tuple(contour[contour[:, :, 1].argmin()][0])
+        ext_bottom = tuple(contour[contour[:, :, 1].argmax()][0])
+        return {"ext_left": ext_left, "ext_right": ext_right, "ext_top": ext_top, "ext_bottom": ext_bottom}
+
     def recognize_symbol(self):
         pass
 
